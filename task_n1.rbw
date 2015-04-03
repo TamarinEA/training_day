@@ -1,15 +1,11 @@
 a = [[4, 19], nil, [32, 41], 0, 0, 0, 65]
 b = [234, 0, nil, [19], 21, [41, 41, 54]]
 
-a = a.flatten.compact
-b = b.flatten.compact
+def common_elements_occurences_count(firs_array, second_array)
+  count_hash = Hash.new
+  (firs_array.flatten.compact & second_array.flatten.compact).each{|elem| count_hash[elem] = 0}
+  (firs_array.flatten.compact + second_array.flatten.compact).each{|elem| count_hash[elem] += 1 if count_hash.key?(elem)}
+  return count_hash
+end
 
-c = Hash.new(0)                            # ключи хэша - элементы
-(a&b).map{|x| c[x] = 0}                    # из пересечения 
-(a+b).map{|x| c[x]+=1 if c.key?(x)}        # массивово a и b
-
-#c = (a+b).inject(Hash.new{0}){|result, x|   # ключи хэша - элементы
-#                              result[x]+=1  # из объединения
-#                              result        # массивово a и b
-#                             }
-puts c
+puts common_elements_occurences_count(a, b)
