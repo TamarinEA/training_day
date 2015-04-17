@@ -153,16 +153,25 @@ end
 def random_persons(n)
   persons = Persons_array.new
   n.times do |k|
-    persons.add_person('name' + k.to_s, rand(0..100), rand(0..1000000), rand(0..200), rand(0..200))
+    persons.add_person('name' + k.to_s, rand(0..100), rand(0..1000000.0).round(1), rand(0..200), rand(0..200))
+  end
+  return persons
+end
+
+def seriatim_persons(n)
+  persons = Persons_array.new
+  n.times do |k|
+    persons.add_person('name' + k.to_s, k % 101, k, k % 201, k % 201)
   end
   return persons
 end
 
 persons = random_persons(10000000)
+#persons = seriatim_persons(10000000)
 puts 'persons created'
 t1 = Time.now
 # для поиска по одному значению [a]
-selectid_persons = persons.person_search({'age' => [20, 30], 'salary' => [20000, 30000], 'height' => [180, 185]})
+selectid_persons = persons.person_search({'age' => [22, 25], 'salary' => [20000.0, 30000.0], 'height' => [150, 200], 'weight' => [50, 100]})
 t2 = Time.now
 if selectid_persons.nil?
   puts 'Person not found'
