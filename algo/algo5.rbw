@@ -1,5 +1,3 @@
-require 'benchmark'
-
 # quick sort для сортировки по одному из параметров
 def swap(array, i, j)
   array[i], array[j] = array[j], array[i]
@@ -48,11 +46,6 @@ def quick_sort(array, param)
   part_of_quick_sort(array, 0, array.size - 1, param)
 end
 
-# встроенная сортировка
-def ruby_quick_sort(array, param)
-  array.sort_by!{|a| a[param]}
-end
-
 # бинарный поиск элементов (с повторениями), принадлежащих отрезку [a, b] 
 def bin_search_area(elem, array, i, j, param)
   if i < j
@@ -89,13 +82,11 @@ def bin_search_area_max(elem, array, i, j, param)
 end
 
 def bin_search_array(elem_array, array, param)
-  new_array = []
   if elem_array.size == 1
-    new_array = bin_search_area(elem_array + elem_array, array, 0, array.size - 1, param)
+    return bin_search_area(elem_array + elem_array, array, 0, array.size - 1, param)
   else
-    new_array = bin_search_area(elem_array, array, 0, array.size - 1, param)
+    return bin_search_area(elem_array, array, 0, array.size - 1, param)
   end
-  return new_array
 end
 
 
@@ -128,12 +119,12 @@ class Persons_array
       param = 4
     end
     t1 = Time.now
-    ruby_quick_sort(array, param)
+    array.sort_by!{|a| a[param]}
     #quick_sort(array, param)
     t2 = Time.now
     n = bin_search_array(elem, array, param)
     t3 = Time.now
-    puts 'ruby quick sort ' + param_str + ' time: ' + (t2 - t1).to_s
+    puts 'quick sort ' + param_str + ' time: ' + (t2 - t1).to_s
     puts 'my bin search ' + param_str + ' time: ' + (t3 - t2).to_s
     if n.nil? || n[1].nil?
       return nil
