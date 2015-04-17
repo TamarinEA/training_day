@@ -161,7 +161,7 @@ end
 persons = random_persons(10000000)
 puts 'persons created'
 t1 = Time.now
-# для поиска по одному значению [a, a]
+# для поиска по одному значению [a]
 selectid_persons = persons.person_search({'age' => [20, 30], 'salary' => [20000, 30000], 'height' => [180, 185]})
 t2 = Time.now
 if selectid_persons.nil?
