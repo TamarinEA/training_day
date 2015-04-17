@@ -127,8 +127,14 @@ class Persons_array
     when 'weight'
       param = 4
     end
+    t1 = Time.now
     ruby_quick_sort(array, param)
+    #quick_sort(array, param)
+    t2 = Time.now
     n = bin_search_array(elem, array, param)
+    t3 = Time.now
+    puts 'ruby quick sort ' + param_str + ' time: ' + (t2 - t1).to_s
+    puts 'my bin search ' + param_str + ' time: ' + (t3 - t2).to_s
     if n.nil? || n[1].nil?
       return nil
     else
@@ -173,17 +179,17 @@ def seriatim_persons(n)
   return persons
 end
 
-persons = Persons_array.new
-selected_persons = ''
 # для поиска по одному значению [a]
-select_hash = {'age' => [22, 25], 'salary' => [20000.0, 30000.0], 'height' => [150, 200], 'weight' => [50, 100]}
+select_hash = {'age' => [22, 25], 'salary' => [20000.0, 25000.0], 'height' => [180, 200], 'weight' => [50, 100]}
 puts select_hash
-Benchmark.bm do |x|
-  x.report ("create") {persons = random_persons(10000000)}
-  x.report ("select") {selected_persons = persons.person_search(select_hash)}
+persons = random_persons(10000000)
+puts 'Persons array created.'
+t1 = Time.now
+selected_persons = persons.person_search(select_hash)
+t2 = Time.now
+puts 'All time: ' + (t2 - t1).to_s
+if selected_persons.nil?
+  puts 'Person not found'
+else
+  puts selected_persons.inspect
 end
-#if selected_persons.nil?
-#  puts 'Person not found'
-#else
-#  selected_persons.each{|k| puts k.inspect}
-#end
