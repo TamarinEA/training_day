@@ -1,3 +1,4 @@
+# quick sort для сортировки по одному из параметров
 def swap(array, i, j)
   array[i], array[j] = array[j], array[i]
 end
@@ -45,6 +46,7 @@ def quick_sort(array, param)
   part_of_quick_sort(array, 0, array.size - 1, param)
 end
 
+# бинарный поиск элементов (с повторениями), принадлежащих отрезку [a, b] 
 def bin_search_area(elem, array, i, j, param)
   if i < j
     n = i + (j - i) / 2
@@ -89,9 +91,6 @@ def bin_search_array(elem_array, array, param)
   return new_array
 end
 
-def sort_by_param(param, array)
-  quick_sort(array, param)
-end
 
 class Persons_array
   attr_accessor :array
@@ -109,6 +108,7 @@ class Persons_array
     @id += 1
   end
   
+  # ищем по одному из параметров
   def person_bin_search(elem, param_str, array)
     case param_str
     when 'age'
@@ -120,9 +120,9 @@ class Persons_array
     when 'weight'
       param = 4
     end
-    sort_by_param(param, array)
+    quick_sort(array, param)
     n = bin_search_array(elem, array, param)
-    if n.nil?
+    if n.nil? || n[1].nil?
       return nil
     else
       new_array = []
@@ -131,6 +131,7 @@ class Persons_array
     end
   end
   
+  # разбираем входные данные
   def person_search(hash)
     array = @array
     hash.keys.each do |k|
@@ -148,6 +149,7 @@ class Persons_array
   end
 end
 
+# 10млн персон...
 def random_persons(n)
   persons = Persons_array.new
   n.times do |k|
@@ -159,6 +161,7 @@ end
 persons = random_persons(10000000)
 puts 'persons created'
 t1 = Time.now
+# для поиска по одному значению [a, a]
 selectid_persons = persons.person_search({'age' => [20, 30], 'salary' => [20000, 30000], 'height' => [180, 185]})
 t2 = Time.now
 if selectid_persons.nil?
