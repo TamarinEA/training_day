@@ -48,6 +48,11 @@ def quick_sort(array, param)
   part_of_quick_sort(array, 0, array.size - 1, param)
 end
 
+# встроенная сортировка
+def ruby_quick_sort(array, param)
+  array.sort_by!{|a| a[param]}
+end
+
 # бинарный поиск элементов (с повторениями), принадлежащих отрезку [a, b] 
 def bin_search_area(elem, array, i, j, param)
   if i < j
@@ -122,7 +127,7 @@ class Persons_array
     when 'weight'
       param = 4
     end
-    quick_sort(array, param)
+    ruby_quick_sort(array, param)
     n = bin_search_array(elem, array, param)
     if n.nil? || n[1].nil?
       return nil
