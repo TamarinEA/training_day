@@ -175,11 +175,11 @@ end
 
 persons = Persons_array.new
 selected_persons = ''
+# для поиска по одному значению [a]
 select_hash = {'age' => [22, 25], 'salary' => [20000.0, 30000.0], 'height' => [150, 200], 'weight' => [50, 100]}
 puts select_hash
 Benchmark.bm do |x|
   x.report ("create") {persons = random_persons(10000000)}
-# для поиска по одному значению [a]
   x.report ("select") {selected_persons = persons.person_search(select_hash)}
 end
 #if selected_persons.nil?
