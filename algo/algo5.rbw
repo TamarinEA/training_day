@@ -1,3 +1,5 @@
+require 'benchmark'
+
 # quick sort для сортировки по одному из параметров
 def swap(array, i, j)
   array[i], array[j] = array[j], array[i]
@@ -166,16 +168,17 @@ def seriatim_persons(n)
   return persons
 end
 
-persons = random_persons(10000000)
-#persons = seriatim_persons(10000000)
-puts 'persons created'
-t1 = Time.now
+persons = Persons_array.new
+selected_persons = ''
+select_hash = {'age' => [22, 25], 'salary' => [20000.0, 30000.0], 'height' => [150, 200], 'weight' => [50, 100]}
+puts select_hash
+Benchmark.bm do |x|
+  x.report ("create") {persons = random_persons(10000000)}
 # для поиска по одному значению [a]
-selectid_persons = persons.person_search({'age' => [22, 25], 'salary' => [20000.0, 30000.0], 'height' => [150, 200], 'weight' => [50, 100]})
-t2 = Time.now
-if selectid_persons.nil?
-  puts 'Person not found'
-else
-  selectid_persons.each{|k| puts k.inspect}
+  x.report ("select") {selected_persons = persons.person_search(select_hash)}
 end
-puts 'select time: ' + (t2 - t1).to_s
+#if selected_persons.nil?
+#  puts 'Person not found'
+#else
+#  selected_persons.each{|k| puts k.inspect}
+#end
