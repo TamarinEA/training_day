@@ -194,15 +194,16 @@ def seach_new_products(number)
   end
   puts (image_number * 100 / new_number).to_s + '% products has image.'
   image_stat.get_stat
-  return new_group_prod.size
+  return new_group_prod.keys
 end
 
 Dir.mkdir($image_dirrectory) unless File.exists?($image_dirrectory)
-unless File.exists?($file_name) || File.size($file_name) < 2
+unless File.exists?($file_name) && File.size($file_name) > 1
   File.open($file_name, 'w') {|file| file.puts("id\tgroup\tsubgroup\tproduct_name\t" + $store_url + "_id\timage_name")}
 end
 
-new_group = 0
-while new_group < 2
-  new_group += seach_new_products($product_count)
+new_group = []
+while new_group.size < 2
+  new_group << seach_new_products($product_count)
+  new_group.flatten!.uniq!
 end
