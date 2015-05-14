@@ -98,24 +98,23 @@ def seach_new_products(number)
         subgroups_link.select! { |a| a.node.parent['class'] == 'h3' }
         subgroups_link.each{ |sub_link|
           subgroup = sub_link.text
-          products = agent.get($store_url + sub_link.href.split('#').first + '?count=all')
-          product_card = products.links_with(href: %r{^/products/[\w-]+/[\w-]+/[\w-]+#product-card})
-          product_card.reject!{|a| a.text.strip==""}
+          products = agent.get($store_url + sub_link.href.split('#').first + '?count=all&view=table')
+          product_card = products.search('.table-product-card')
           product_card.each{ |product|
-            product_id =  product.href.split(/[_#]/)[-2]
+            product_id =  product.css('.product-link').first['href'].split(/[_#]/)[-2]
 
             if old_products[product_id].nil?
-              get_product = product.click
+              product_name = product.css('.product-link').text.strip
               product_image = ""
-              image = get_product.search('.product-image div').first
-              product_name = get_product.search('h1').text.strip
+              image_url = product.css('.product-image-column .image')[0]['style'].split(/[()]/)[1]
+              (image_url.split('images/no_photo').size > 1) ? image_url = nil : image_url = image_url.split('small')*'big'
 
-              unless image['href'].nil?
-                product_image = image['href'].split('/')[2..-1]*'_'
+              unless image_url.nil?
+                product_image = image_url.split('/')[2..-1]*'_'
                 image_number += 1
 
                 unless File.exist?($image_dirrectory + product_image)
-                  agent.get($store_url + image['href']).save ($image_dirrectory + product_image)
+                  agent.get($store_url + image_url).save ($image_dirrectory + product_image)
                   image_stat.calculate_stat($image_dirrectory + product_image, product_name)
                 end
               end
