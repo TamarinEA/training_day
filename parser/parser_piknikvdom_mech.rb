@@ -98,14 +98,8 @@ def seach_new_products(number)
         subgroups_link.select! { |a| a.node.parent['class'] == 'h3' }
         subgroups_link.each{ |sub_link|
           subgroup = sub_link.text
-          products = sub_link.click
+          products = agent.get($store_url + sub_link.href.split('#').first + '?count=all')
           product_card = products.links_with(href: %r{^/products/[\w-]+/[\w-]+/[\w-]+#product-card})
-          next_link = products.links_with(:dom_class => 'pager-next gray ctrl-r navi-link')
-          while next_link.size > 0
-            products = next_link.first.click
-            product_card += products.links_with(href: %r{^/products/[\w-]+/[\w-]+/[\w-]+#product-card})
-            next_link = products.links_with(:dom_class => 'pager-next gray ctrl-r navi-link')
-          end
           product_card.reject!{|a| a.text.strip==""}
           product_card.each{ |product|
             product_id =  product.href.split(/[_#]/)[-2]
@@ -130,7 +124,6 @@ def seach_new_products(number)
               new_group_prod[group] += 1
               new_products << [my_id, group, subgroup, product_name, product_id, product_image]
               new_number += 1
-              #puts new_number.to_s + ' ' + my_id.to_s
 
             else
               unless search_with_key([group, subgroup], old_products[product_id])
