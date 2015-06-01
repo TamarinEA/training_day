@@ -24,7 +24,7 @@ BEGIN
 	RETURN QUERY
 	WITH 
 	_rubrics AS (
-	SELECT id, title, parent_id, cached_level, (rgt - lft - 1)/2 AS rubric_sum, lft, rgt
+	SELECT id, title, cached_level, (rgt - lft - 1)/2 AS rubric_sum, lft, rgt
 	FROM rubrics
 	WHERE lft >= (SELECT lft FROM rubrics WHERE id = $1)
 	AND rgt <= (SELECT rgt FROM rubrics WHERE id = $1)
