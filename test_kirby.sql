@@ -2,7 +2,7 @@
   SELECT CASE WHEN created_at < '2015-04-01' THEN '03.01-03.14 march'
   	      WHEN created_at < '2015-05-01' THEN '04.17-04.30 april'
 	      WHEN created_at < '2015-05-14' THEN '05.01-05.13 may1'
-	      WHEN created_at < '2015-06-01' THEN '05.15-05.31 may2'
+	      WHEN created_at < '2015-06-01' THEN '05.14-05.31 may2'
 	      ELSE 'other'
 	  END AS created_month, yml_id 
   FROM products 
