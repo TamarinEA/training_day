@@ -1,12 +1,12 @@
 ﻿WITH _products AS (
-  SELECT CASE WHEN created_at <= '2015-03-31' THEN '03.01-03.14 march'
-  	      WHEN created_at <= '2015-04-30' THEN '04.17-04.30 april'
-	      WHEN created_at <= '2015-05-13' THEN '05.01-05.13 may1'
-	      WHEN created_at <= '2015-05-31' THEN '05.15-05.31 may2'
+  SELECT CASE WHEN created_at < '2015-04-01' THEN '03.01-03.14 march'
+  	      WHEN created_at < '2015-05-01' THEN '04.17-04.30 april'
+	      WHEN created_at < '2015-05-14' THEN '05.01-05.13 may1'
+	      WHEN created_at < '2015-06-01' THEN '05.15-05.31 may2'
 	      ELSE 'other'
 	  END AS created_month, yml_id 
   FROM products 
-  WHERE (created_at >= '2015-04-17' AND created_at <= '2015-05-31') OR (created_at >= '2015-03-01' AND created_at <= '2015-03-14')
+  WHERE (created_at BETWEEN '2015-04-17' AND '2015-06-01') OR (created_at BETWEEN '2015-03-01' AND '2015-03-15')
 ),
 _hand AS (
   SELECT created_month, count(*) AS hand_made 
