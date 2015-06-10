@@ -6,8 +6,8 @@
 	    WHEN created_at < '2015-06-01' THEN '05.14-05.31 may2'
 	    ELSE 'other'
 	END AS created_month,
-	SUM(CASE WHEN yml_id IS NOT NULL THEN 1 ELSE 0 END) as kyrby_made,
-	SUM(CASE WHEN yml_id IS NOT NULL THEN 0 ELSE 1 END) as hand_made
+	SUM(CASE WHEN yml_id IS NOT NULL THEN 0 ELSE 1 END) as hand_made,
+	SUM(CASE WHEN yml_id IS NOT NULL THEN 1 ELSE 0 END) as kyrby_made
 FROM products 
 WHERE (created_at BETWEEN '2015-03-01' AND '2015-06-01') AND create_user_type = 'ugc'
 GROUP BY created_month
